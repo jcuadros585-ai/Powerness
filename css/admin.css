@@ -280,3 +280,34 @@ table tr:nth-child(even) {
         align-items: flex-start;
     }
 }
+.btn-small {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    margin-right: 6px;
+}
+
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #7a0000, #c90000);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    transition: 0.25s ease;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+}
+
+.badge-admin {
+    display: inline-block;
+    background: rgba(30, 203, 129, 0.14);
+    color: #86f0bf;
+    border: 1px solid rgba(30, 203, 129, 0.25);
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+}
