@@ -10,14 +10,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = $conexion->query($sql);
 
     if ($resultado->num_rows > 0) {
-        $fila = $resultado->fetch_assoc();
-        $_SESSION["usuario"] = $fila["nombre"];
-        header("Location: dashboard.php");
-        exit();
+    $fila = $resultado->fetch_assoc();
+
+    $_SESSION["usuario"] = $fila["nombre"];
+    $_SESSION["rol"] = $fila["rol"]; // login de mi adminnnnnnnnnnnnnnnnnnnnnnnn
+
+    header("Location: dashboard.php");
+    exit();
+}
     } else {
         echo "<script>alert('Correo o contraseña incorrectos');</script>";
     }
-}
+
 ?>
 
 <!DOCTYPE html>

@@ -59,6 +59,10 @@ if ($resGrafico && $resGrafico->num_rows > 0) {
 }
 ?>
 
+<?php if ($_SESSION["rol"] == "admin") { ?>
+    <a href="admin/dashboard.php" class="btn">Panel Admin</a>
+<?php } ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
