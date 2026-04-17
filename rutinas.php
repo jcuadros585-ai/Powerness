@@ -12,7 +12,7 @@ if (!isset($_SESSION["usuario"])) {
 <head>
     <meta charset="UTF-8">
     <title>Rutinas - PowerNess</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
@@ -28,6 +28,7 @@ if (!isset($_SESSION["usuario"])) {
             <a href="dashboard.php">Inicio</a>
             <a href="progreso.php">Mi progreso</a>
             <a href="rutinas.php" class="activo">Rutinas</a>
+            <a href="dieta.php">Dieta</a>
             <a href="perfil.php">Mi perfil</a>
             <a href="logout.php">Cerrar sesión</a>
         </nav>
@@ -37,39 +38,39 @@ if (!isset($_SESSION["usuario"])) {
         <div class="topbar">
             <div class="topbar-left">
                 <h1>Rutinas de entrenamiento</h1>
-                <p>Escoge una rutina según tu objetivo físico.</p>
+                <p>Programas organizados según el objetivo físico del usuario.</p>
             </div>
-            <div class="status-chip">Módulo activo</div>
+            <div class="status-chip">Rutinas activas</div>
         </div>
 
         <section class="resumen-grid">
             <div class="resumen-card">
                 <h3>Hipertrofia</h3>
-                <p>Ideal para aumento de masa muscular.</p>
+                <p>Rutina orientada al aumento de masa muscular.</p>
                 <ul>
-                    <li>Pecho + tríceps</li>
-                    <li>Espalda + bíceps</li>
-                    <li>Pierna completa</li>
+                    <li>Pecho y tríceps</li>
+                    <li>Espalda y bíceps</li>
+                    <li>Piernas completas</li>
                 </ul>
             </div>
 
             <div class="resumen-card">
                 <h3>Definición</h3>
-                <p>Ideal para perder grasa y mantener masa muscular.</p>
+                <p>Rutina enfocada en reducir grasa corporal y mejorar condición física.</p>
                 <ul>
                     <li>Full body</li>
                     <li>HIIT</li>
-                    <li>Cardio + core</li>
+                    <li>Cardio y abdomen</li>
                 </ul>
             </div>
 
             <div class="resumen-card">
                 <h3>Fuerza</h3>
-                <p>Ideal para mejorar rendimiento y levantamientos.</p>
+                <p>Rutina diseñada para mejorar rendimiento y levantamientos básicos.</p>
                 <ul>
-                    <li>5x5</li>
-                    <li>Power básico</li>
-                    <li>Compuestos pesados</li>
+                    <li>Sentadilla</li>
+                    <li>Press banca</li>
+                    <li>Peso muerto</li>
                 </ul>
             </div>
         </section>

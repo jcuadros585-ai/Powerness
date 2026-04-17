@@ -6,9 +6,7 @@
 
 :root {
     --bg: #0b0d12;
-    --bg-soft: #12161d;
     --card: rgba(255, 255, 255, 0.05);
-    --card-strong: rgba(255, 255, 255, 0.08);
     --border: rgba(255, 255, 255, 0.08);
     --text: #ffffff;
     --muted: #b8c0cc;
@@ -33,15 +31,7 @@ a {
     text-decoration: none;
 }
 
-.contenedor {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-}
-
-/* BOTONES */
-.btn,
-button {
+.btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -57,77 +47,11 @@ button {
     font-size: 0.98rem;
 }
 
-.btn:hover,
-button:hover {
+.btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 30px rgba(255, 42, 42, 0.28);
 }
 
-/* FORMULARIOS LOGIN / REGISTRO */
-.form-page {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 32px 16px;
-}
-
-.form-card {
-    width: 100%;
-    max-width: 430px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 34px 28px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(12px);
-}
-
-.form-card h2 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 2rem;
-}
-
-.form-subtitle {
-    text-align: center;
-    color: var(--muted);
-    margin-bottom: 24px;
-    line-height: 1.5;
-}
-
-.form-card input {
-    width: 100%;
-    padding: 14px 15px;
-    margin-bottom: 14px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    outline: none;
-    background: rgba(255,255,255,0.04);
-    color: white;
-    font-size: 1rem;
-}
-
-.form-card input::placeholder {
-    color: #97a2b0;
-}
-
-.form-card button {
-    width: 100%;
-    margin-top: 6px;
-}
-
-.form-card p {
-    text-align: center;
-    margin-top: 16px;
-    color: var(--muted);
-}
-
-.form-card p a {
-    color: #ff6b6b;
-}
-
-/* DASHBOARD */
 .dashboard-page {
     display: flex;
     min-height: 100vh;
@@ -315,56 +239,6 @@ button:hover {
     margin-bottom: 7px;
 }
 
-.panel-info {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 24px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
-.panel-info h2 {
-    margin-bottom: 12px;
-}
-
-.panel-info p {
-    color: var(--muted);
-    line-height: 1.75;
-    margin-bottom: 10px;
-}
-
-/* TABLAS */
-.table-wrap {
-    overflow-x: auto;
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(255,255,255,0.98);
-    color: #111;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-table th {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    padding: 14px 12px;
-    font-size: 0.95rem;
-}
-
-table td {
-    padding: 14px 12px;
-    text-align: center;
-}
-
-table tr:nth-child(even) {
-    background: #f3f4f6;
-}
-
-/* BLOQUES EXTRA */
 .welcome-banner {
     background: linear-gradient(135deg, rgba(255,42,42,0.16), rgba(255,42,42,0.05));
     border: 1px solid rgba(255,42,42,0.18);
@@ -384,7 +258,14 @@ table tr:nth-child(even) {
     line-height: 1.7;
 }
 
-/* RESPONSIVE */
+canvas {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 12px;
+}
+
 @media (max-width: 1100px) {
     .metric-grid {
         grid-template-columns: 1fr;
@@ -412,28 +293,4 @@ table tr:nth-child(even) {
         flex-direction: column;
         align-items: flex-start;
     }
-}
-.form-card select {
-    width: 100%;
-    padding: 14px 15px;
-    margin-bottom: 14px;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    outline: none;
-    background: rgba(255,255,255,0.04);
-    color: white;
-    font-size: 1rem;
-}
-
-.form-card select option {
-    background: #11161d;
-    color: white;
-}
-
-canvas {
-    margin-top: 20px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 12px;
 }

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Login - PowerNess</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
 <body>
 

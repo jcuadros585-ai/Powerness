@@ -18,7 +18,7 @@ $usuario = $resultado->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>Perfil - PowerNess</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 

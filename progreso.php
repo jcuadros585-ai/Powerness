@@ -32,46 +32,84 @@ $resultado = $conexion->query($consulta);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Progreso - PowerNess</title>
-    <link rel="stylesheet" href="estilos.css">
+    <title>Mi progreso - PowerNess</title>
+    <link rel="stylesheet" href="css/progreso.css">
 </head>
 <body>
 
-<div class="contenedor">
-    <h2>Registrar progreso</h2>
+<div class="dashboard-page">
 
-    <form method="POST">
-        <input type="number" step="0.01" name="peso" placeholder="Peso en kg" required><br><br>
-        <input type="number" step="0.01" name="estatura" placeholder="Estatura en metros" required><br><br>
-        <input type="date" name="fecha" required><br><br>
-        <button type="submit" class="btn">Guardar progreso</button>
-    </form>
+    <aside class="sidebar">
+        <div class="brand-box">
+            <h2>PowerNess</h2>
+            <p>Panel de entrenamiento</p>
+        </div>
 
-    <br><br>
-    <h2>Historial de progreso</h2>
+        <nav class="sidebar-nav">
+            <a href="dashboard.php">Inicio</a>
+            <a href="progreso.php" class="activo">Mi progreso</a>
+            <a href="rutinas.php">Rutinas</a>
+            <a href="perfil.php">Mi perfil</a>
+            <a href="logout.php">Cerrar sesión</a>
+        </nav>
+    </aside>
 
-    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; background:white; color:black;">
-        <tr>
-            <th>ID</th>
-            <th>Usuario</th>
-            <th>Peso</th>
-            <th>Estatura</th>
-            <th>Fecha</th>
-        </tr>
+    <main class="dashboard-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Mi progreso</h1>
+                <p>Registra tus datos y consulta tu historial físico.</p>
+            </div>
+            <div class="status-chip">Seguimiento activo</div>
+        </div>
 
-        <?php while ($fila = $resultado->fetch_assoc()) { ?>
-        <tr>
-            <td><?php echo $fila["id"]; ?></td>
-            <td><?php echo $fila["usuario"]; ?></td>
-            <td><?php echo $fila["peso"]; ?></td>
-            <td><?php echo $fila["estatura"]; ?></td>
-            <td><?php echo $fila["fecha"]; ?></td>
-        </tr>
-        <?php } ?>
-    </table>
+        <section class="content-grid">
+            <div class="panel-card">
+                <h2>Registrar progreso</h2>
+                <form method="POST">
+                    <input type="number" step="0.01" name="peso" placeholder="Peso en kg" required>
+                    <input type="number" step="0.01" name="estatura" placeholder="Estatura en metros" required>
+                    <input type="date" name="fecha" required>
+                    <button type="submit">Guardar progreso</button>
+                </form>
+            </div>
 
-    <br>
-    <a href="dashboard.php" class="btn">Volver</a>
+            <div class="panel-card">
+                <h3>Descripción</h3>
+                <p>
+                    En este apartado el usuario puede registrar información básica de su evolución,
+                    como peso, estatura y fecha, permitiendo llevar un mejor control de su avance.
+                </p>
+            </div>
+        </section>
+
+        <section class="panel-info">
+            <h2>Historial registrado</h2>
+
+            <div class="table-wrap">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Peso</th>
+                        <th>Estatura</th>
+                        <th>Fecha</th>
+                    </tr>
+
+                    <?php while ($fila = $resultado->fetch_assoc()) { ?>
+                    <tr>
+                        <td><?php echo $fila["id"]; ?></td>
+                        <td><?php echo $fila["usuario"]; ?></td>
+                        <td><?php echo $fila["peso"]; ?> kg</td>
+                        <td><?php echo $fila["estatura"]; ?> m</td>
+                        <td><?php echo $fila["fecha"]; ?></td>
+                    </tr>
+                    <?php } ?>
+                </table>
+            </div>
+        </section>
+    </main>
+
 </div>
 
 </body>
