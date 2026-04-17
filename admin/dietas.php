@@ -13,86 +13,98 @@ if (!isset($_SESSION["rol"]) || $_SESSION["rol"] != "admin") {
 }
 
 $mensaje = "";
-$usuarioSeleccionado = null;
+$usuarioIdSeleccionado = null;
 $datosUsuario = null;
 $dietaActual = null;
 $pesoActual = "Sin registros";
 
-/* Guardar o actualizar dieta */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
-    $peso_actual = $_POST["peso_actual"];
-    $objetivo = $_POST["objetivo"];
-    $carbo_extra = $_POST["carbo_extra"];
-    $prote_extra = $_POST["prote_extra"];
-    $grasa_extra = $_POST["grasa_extra"];
-    $desayuno = $_POST["desayuno"];
-    $almuerzo = $_POST["almuerzo"];
-    $merienda = $_POST["merienda"];
-    $cena = $_POST["cena"];
-    $observaciones = $_POST["observaciones"];
+/* Capturar usuario seleccionado */
+if (isset($_GET["usuario_id"])) {
+    $usuarioIdSeleccionado = (int) $_GET["usuario_id"];
+}
 
-    $sqlExiste = "SELECT id FROM dietas WHERE usuario='$usuario'";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario_id = (int) $_POST["usuario_id"];
+    $peso_actual = (float) $_POST["peso_actual"];
+    $objetivo = $conexion->real_escape_string($_POST["objetivo"]);
+    $carbo_extra = (int) $_POST["carbo_extra"];
+    $prote_extra = (int) $_POST["prote_extra"];
+    $grasa_extra = (int) $_POST["grasa_extra"];
+    $desayuno = $conexion->real_escape_string($_POST["desayuno"]);
+    $almuerzo = $conexion->real_escape_string($_POST["almuerzo"]);
+    $merienda = $conexion->real_escape_string($_POST["merienda"]);
+    $cena = $conexion->real_escape_string($_POST["cena"]);
+    $observaciones = $conexion->real_escape_string($_POST["observaciones"]);
+
+    $sqlExiste = "SELECT id FROM dietas WHERE usuario_id = $usuario_id LIMIT 1";
     $resExiste = $conexion->query($sqlExiste);
 
     if ($resExiste && $resExiste->num_rows > 0) {
         $sqlUpdate = "UPDATE dietas SET
-                        peso_actual='$peso_actual',
-                        objetivo='$objetivo',
-                        carbo_extra='$carbo_extra',
-                        prote_extra='$prote_extra',
-                        grasa_extra='$grasa_extra',
-                        desayuno='$desayuno',
-                        almuerzo='$almuerzo',
-                        merienda='$merienda',
-                        cena='$cena',
-                        observaciones='$observaciones'
-                      WHERE usuario='$usuario'";
-        $conexion->query($sqlUpdate);
-        $mensaje = "Dieta actualizada correctamente.";
+                        peso_actual = $peso_actual,
+                        objetivo = '$objetivo',
+                        carbo_extra = $carbo_extra,
+                        prote_extra = $prote_extra,
+                        grasa_extra = $grasa_extra,
+                        desayuno = '$desayuno',
+                        almuerzo = '$almuerzo',
+                        merienda = '$merienda',
+                        cena = '$cena',
+                        observaciones = '$observaciones'
+                      WHERE usuario_id = $usuario_id";
+        if ($conexion->query($sqlUpdate)) {
+            $mensaje = "Dieta actualizada correctamente.";
+        } else {
+            $mensaje = "Error al actualizar la dieta.";
+        }
     } else {
         $sqlInsert = "INSERT INTO dietas
-                        (usuario, peso_actual, objetivo, carbo_extra, prote_extra, grasa_extra, desayuno, almuerzo, merienda, cena, observaciones)
+                        (usuario_id, peso_actual, objetivo, carbo_extra, prote_extra, grasa_extra, desayuno, almuerzo, merienda, cena, observaciones)
                       VALUES
-                        ('$usuario', '$peso_actual', '$objetivo', '$carbo_extra', '$prote_extra', '$grasa_extra', '$desayuno', '$almuerzo', '$merienda', '$cena', '$observaciones')";
-        $conexion->query($sqlInsert);
-        $mensaje = "Dieta registrada correctamente.";
+                        ($usuario_id, $peso_actual, '$objetivo', $carbo_extra, $prote_extra, $grasa_extra, '$desayuno', '$almuerzo', '$merienda', '$cena', '$observaciones')";
+        if ($conexion->query($sqlInsert)) {
+            $mensaje = "Dieta registrada correctamente.";
+        } else {
+            $mensaje = "Error al registrar la dieta.";
+        }
     }
 
-    $usuarioSeleccionado = $usuario;
+    $usuarioIdSeleccionado = $usuario_id;
 }
 
-/* Usuario seleccionado por GET o POST */
-if (isset($_GET["usuario"])) {
-    $usuarioSeleccionado = $_GET["usuario"];
-}
-
-if ($usuarioSeleccionado) {
-    $sqlUsuario = "SELECT * FROM usuarios WHERE nombre='$usuarioSeleccionado' LIMIT 1";
+/* Cargar datos del usuario seleccionado */
+if ($usuarioIdSeleccionado) {
+    $sqlUsuario = "SELECT * FROM usuarios WHERE id = $usuarioIdSeleccionado LIMIT 1";
     $resUsuario = $conexion->query($sqlUsuario);
 
     if ($resUsuario && $resUsuario->num_rows > 0) {
         $datosUsuario = $resUsuario->fetch_assoc();
-    }
 
-    $sqlPeso = "SELECT peso, fecha FROM progreso WHERE usuario='$usuarioSeleccionado' ORDER BY fecha DESC LIMIT 1";
-    $resPeso = $conexion->query($sqlPeso);
+        $nombreUsuario = $conexion->real_escape_string($datosUsuario["nombre"]);
 
-    if ($resPeso && $resPeso->num_rows > 0) {
-        $filaPeso = $resPeso->fetch_assoc();
-        $pesoActual = $filaPeso["peso"];
-    }
+        $sqlPeso = "SELECT peso, fecha 
+                    FROM progreso 
+                    WHERE usuario = '$nombreUsuario' 
+                    ORDER BY fecha DESC, id DESC 
+                    LIMIT 1";
+        $resPeso = $conexion->query($sqlPeso);
 
-    $sqlDieta = "SELECT * FROM dietas WHERE usuario='$usuarioSeleccionado' LIMIT 1";
-    $resDieta = $conexion->query($sqlDieta);
+        if ($resPeso && $resPeso->num_rows > 0) {
+            $filaPeso = $resPeso->fetch_assoc();
+            $pesoActual = $filaPeso["peso"];
+        }
 
-    if ($resDieta && $resDieta->num_rows > 0) {
-        $dietaActual = $resDieta->fetch_assoc();
+        $sqlDieta = "SELECT * FROM dietas WHERE usuario_id = $usuarioIdSeleccionado LIMIT 1";
+        $resDieta = $conexion->query($sqlDieta);
+
+        if ($resDieta && $resDieta->num_rows > 0) {
+            $dietaActual = $resDieta->fetch_assoc();
+        }
     }
 }
 
 /* Lista de usuarios */
-$sqlUsuarios = "SELECT nombre FROM usuarios ORDER BY nombre ASC";
+$sqlUsuarios = "SELECT id, nombre FROM usuarios ORDER BY nombre ASC";
 $usuarios = $conexion->query($sqlUsuarios);
 ?>
 
@@ -156,12 +168,14 @@ $usuarios = $conexion->query($sqlUsuarios);
             <form method="GET" class="admin-form-grid">
                 <div>
                     <label>Usuario</label>
-                    <select name="usuario" required>
+                    <select name="usuario_id" required>
                         <option value="">Selecciona un usuario</option>
-                        <?php while ($filaUsuario = $usuarios->fetch_assoc()) { ?>
-                            <option value="<?php echo $filaUsuario["nombre"]; ?>" <?php echo ($usuarioSeleccionado == $filaUsuario["nombre"]) ? "selected" : ""; ?>>
-                                <?php echo $filaUsuario["nombre"]; ?>
-                            </option>
+                        <?php if ($usuarios && $usuarios->num_rows > 0) { ?>
+                            <?php while ($filaUsuario = $usuarios->fetch_assoc()) { ?>
+                                <option value="<?php echo $filaUsuario["id"]; ?>" <?php echo ($usuarioIdSeleccionado == $filaUsuario["id"]) ? "selected" : ""; ?>>
+                                    <?php echo $filaUsuario["nombre"]; ?>
+                                </option>
+                            <?php } ?>
                         <?php } ?>
                     </select>
                 </div>
@@ -172,7 +186,7 @@ $usuarios = $conexion->query($sqlUsuarios);
             </form>
         </section>
 
-        <?php if ($usuarioSeleccionado && $datosUsuario) { ?>
+        <?php if ($usuarioIdSeleccionado && $datosUsuario) { ?>
         <section class="metric-grid" style="margin-top: 24px;">
             <div class="metric-card">
                 <span>Usuario</span>
@@ -182,7 +196,7 @@ $usuarios = $conexion->query($sqlUsuarios);
 
             <div class="metric-card">
                 <span>Peso actual</span>
-                <h3><?php echo $pesoActual; ?> kg</h3>
+                <h3><?php echo is_numeric($pesoActual) ? $pesoActual . " kg" : $pesoActual; ?></h3>
                 <p>Último peso registrado en el sistema.</p>
             </div>
 
@@ -197,7 +211,7 @@ $usuarios = $conexion->query($sqlUsuarios);
             <h2><?php echo $dietaActual ? "Actualizar dieta" : "Registrar dieta"; ?></h2>
 
             <form method="POST" class="diet-form">
-                <input type="hidden" name="usuario" value="<?php echo $datosUsuario["nombre"]; ?>">
+                <input type="hidden" name="usuario_id" value="<?php echo $datosUsuario["id"]; ?>">
                 <input type="hidden" name="objetivo" value="<?php echo $datosUsuario["objetivo"]; ?>">
                 <input type="hidden" name="peso_actual" value="<?php echo is_numeric($pesoActual) ? $pesoActual : 0; ?>">
 

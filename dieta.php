@@ -9,26 +9,26 @@ if (!isset($_SESSION["usuario"])) {
 
 $usuario = $_SESSION["usuario"];
 $dieta = null;
-
-/* Buscar dieta personalizada del usuario */
-$sqlDieta = "SELECT * FROM dietas WHERE usuario='$usuario' LIMIT 1";
-$resDieta = $conexion->query($sqlDieta);
-
-if ($resDieta && $resDieta->num_rows > 0) {
-    $dieta = $resDieta->fetch_assoc();
-}
+$datosUsuario = null;
 
 /* Buscar datos del usuario */
 $sqlUsuario = "SELECT * FROM usuarios WHERE nombre='$usuario' LIMIT 1";
 $resUsuario = $conexion->query($sqlUsuario);
-$datosUsuario = null;
 
 if ($resUsuario && $resUsuario->num_rows > 0) {
     $datosUsuario = $resUsuario->fetch_assoc();
+    $usuarioId = (int) $datosUsuario["id"];
+
+    $sqlDieta = "SELECT * FROM dietas WHERE usuario_id = $usuarioId LIMIT 1";
+    $resDieta = $conexion->query($sqlDieta);
+
+    if ($resDieta && $resDieta->num_rows > 0) {
+        $dieta = $resDieta->fetch_assoc();
+    }
 }
 
-/* Buscar último peso registrado */
-$sqlPeso = "SELECT peso, fecha FROM progreso WHERE usuario='$usuario' ORDER BY fecha DESC LIMIT 1";
+/* Buscar último peso */
+$sqlPeso = "SELECT peso, fecha FROM progreso WHERE usuario='$usuario' ORDER BY fecha DESC, id DESC LIMIT 1";
 $resPeso = $conexion->query($sqlPeso);
 
 $pesoActual = "Sin registros";
