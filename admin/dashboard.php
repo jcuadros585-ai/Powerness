@@ -137,6 +137,7 @@ $ultimosProgresos = $conexion->query($sqlUltimosProgresos);
                 <div class="quick-actions">
                     <a href="usuarios.php" class="btn">Gestionar usuarios</a>
                     <a href="dietas.php" class="btn">Gestionar dietas</a>
+                    <a href="chat.php" class="btn">Chat</a>
                     <a href="registros.php" class="btn">Ver registros</a>
                     <a href="rutinas.php" class="btn">Gestionar rutinas</a>
                 </div>

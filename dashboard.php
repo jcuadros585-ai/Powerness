@@ -87,6 +87,8 @@ if ($resGrafico && $resGrafico->num_rows > 0) {
             <a href="progreso.php">Mi progreso</a>
             <a href="rutinas.php">Rutinas</a>
             <a href="dieta.php">Dieta</a>
+            <a href="chat.php">Chat</a>
+            <a href="notificaciones.php">Notificaciones</a>
             <a href="perfil.php">Mi perfil</a>
             <a href="logout.php">Cerrar sesión</a>
         </nav>
